@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlazorApp.Models
 {
-    public class Customer
+    public partial class Customers
     {
         public string Id { get; set; }
         public string CompanyName { get; set; }
