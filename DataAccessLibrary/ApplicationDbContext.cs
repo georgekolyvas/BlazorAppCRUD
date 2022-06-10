@@ -10,6 +10,6 @@ namespace DataAccessLibrary
 
         }
 
-        public DbSet<ApiCustomer> Customers { get; set; }  
+        public DbSet<Customer> Customers { get; set; }  
     }
 }

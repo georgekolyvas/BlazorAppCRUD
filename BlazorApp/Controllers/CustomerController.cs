@@ -23,7 +23,7 @@ namespace BlazorApp.Controllers
         /// </summary>
         // api/customer/getcustomers        
         [HttpGet("getcustomers")]
-        public async Task<List<ApiCustomer>> GetCustomers()
+        public async Task<List<Customer>> GetCustomers()
         {
             return await _customerService.GetCustomers();
         }
@@ -33,7 +33,7 @@ namespace BlazorApp.Controllers
         /// </summary>
         // api/customer/{id}         
         [HttpGet("{id}")]
-        public async Task<ApiCustomer> GetCustomerById(int id)
+        public async Task<Customer> GetCustomerById(int id)
         {
             return await _customerService.GetCustomerById(id);
         }
@@ -42,7 +42,7 @@ namespace BlazorApp.Controllers
         /// Update an existing customer
         /// </summary>         
         [HttpPut]
-        public async Task<string> UpdateCustomer(ApiCustomer objCustomer)
+        public async Task<string> UpdateCustomer(Customer objCustomer)
         {
             return await _customerService.UpdateCustomer(objCustomer);
         }
@@ -51,7 +51,7 @@ namespace BlazorApp.Controllers
         /// Create a new customer
         /// </summary>        
         [HttpPost]
-        public async Task<string> CreateCustomer(ApiCustomer objCustomer)
+        public async Task<string> CreateCustomer(Customer objCustomer)
         {
             return await _customerService.CreateCustomer(objCustomer);
         }
@@ -59,10 +59,10 @@ namespace BlazorApp.Controllers
         /// <summary>
         /// Delete a customer
         /// </summary> 
-        [HttpDelete]
-        public async Task<string> DeleteCustomer(ApiCustomer objCustomer)
+        [HttpDelete("{id}")]        
+        public async Task<string> DeleteCustomer(int id)
         {
-            return await _customerService.DeleteCustomer(objCustomer);
+            return await _customerService.DeleteCustomer(id);
         }
     }
 }

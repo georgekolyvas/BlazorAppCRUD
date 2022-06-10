@@ -1,4 +1,4 @@
-﻿@page "/DeleteCustomer/{CurrentID}"
+﻿@page "/deletecustomer/{CurrentID}"
 
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
@@ -63,7 +63,7 @@
     [Parameter]
     public string CurrentID { get; set; }
 
-    ApiCustomer objCustomer = new ApiCustomer();
+        Customer objCustomer = new Customer();
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,13 +71,13 @@
     }
 
     protected async void DeleteThisCustomer()
-    {
-        await objCustomerService.DeleteCustomer(objCustomer);
-        NavigationManager.NavigateTo("Customer");
+    {        
+        await objCustomerService.DeleteCustomer(objCustomer.Id);
+        NavigationManager.NavigateTo("Customers");
     }
 
     void Cancel()
     {
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("Customers");
     }
 }

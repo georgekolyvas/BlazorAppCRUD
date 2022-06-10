@@ -1,4 +1,4 @@
-﻿@page "/EditCustomer/{CurrentID}"
+﻿@page "/editcustomer/{CurrentID}"
 
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
@@ -76,7 +76,7 @@
     [Parameter]
     public string CurrentID { get; set; }
 
-    ApiCustomer objCustomer = new ApiCustomer();       
+        Customer objCustomer = new Customer();       
 
     protected override async Task OnInitializedAsync()
     {
@@ -86,11 +86,11 @@
     protected async void UpdateCustomer()
     {
         await objCustomerService.UpdateCustomer(objCustomer);
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("Customers");
     }
 
     void Cancel()
     {
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("Customers");
     }
 }

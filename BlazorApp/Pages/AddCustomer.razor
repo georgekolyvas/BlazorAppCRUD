@@ -1,4 +1,4 @@
-﻿@page "/AddCustomer"
+﻿@page "/addcustomer"
 
 @using DataAccessLibrary
 @using DataAccessLibrary.Models
@@ -67,19 +67,16 @@
 </EditForm>
 
 @code {
-    ApiCustomer objCustomer = new ApiCustomer();
-
-    /// <summary>
-    /// Create a Customer
-    /// </summary>
+    Customer objCustomer = new Customer();
+    
     protected async void CreateCustomer()
     {
         await objCustomerService.CreateCustomer(objCustomer);
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("Customers");
     }
 
     void Cancel()
     {
-        NavigationManager.NavigateTo("Customer");
+        NavigationManager.NavigateTo("Customers");
     }
 }

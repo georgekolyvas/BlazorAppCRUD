@@ -20,7 +20,7 @@ namespace DataAccessLibrary
 
         // CRUD Operations
         // Get all customers      
-        public async Task<List<ApiCustomer>> GetCustomers()
+        public async Task<List<Customer>> GetCustomers()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace DataAccessLibrary
         }
 
         // Create a customer
-        public async Task<string> CreateCustomer(ApiCustomer objCustomer)
+        public async Task<string> CreateCustomer(Customer objCustomer)
         {
 
             if (!CustomerExists(objCustomer.Id))
@@ -57,11 +57,11 @@ namespace DataAccessLibrary
         }
 
         // Get customer by id
-        public async Task<ApiCustomer> GetCustomerById(int id)
+        public async Task<Customer> GetCustomerById(int id)
         {
             try
             {
-                ApiCustomer customer = await _db.Customers.FirstOrDefaultAsync(q => q.Id == id);
+                Customer customer = await _db.Customers.FirstOrDefaultAsync(q => q.Id == id);
                 return customer;
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace DataAccessLibrary
         }
 
         // Update customer
-        public async Task<string> UpdateCustomer(ApiCustomer objCustomer)
+        public async Task<string> UpdateCustomer(Customer objCustomer)
         {
             try
             {
@@ -85,14 +85,20 @@ namespace DataAccessLibrary
             }
         }
 
-        // Delete customer
-        public async Task<string> DeleteCustomer(ApiCustomer objCustomer)
+        // Delete customer        
+        public async Task<string> DeleteCustomer(int id)
         {
             try
-            {
-                _db.Remove(objCustomer);
-                await _db.SaveChangesAsync();
-                return "Delete Successfully";
+            {                
+                var customer = await _db.Customers.FindAsync(id);
+                if (customer != null)
+                {
+                    _db.Remove(customer);
+                    await _db.SaveChangesAsync();
+                    return "Delete Successfully";
+                }
+                else
+                    return "Not Customer Found";
             }
             catch (Exception ex)
             {
@@ -113,16 +119,16 @@ namespace DataAccessLibrary
         }
         
         // paginated list of customers
-        public async Task<PagedList<ApiCustomer>> GetPaginatedCustomers(int pageIndex, int pageSize)
+        public async Task<PagedList<Customer>> GetPaginatedCustomers(int pageIndex, int pageSize)
         {
             try
             {
-                IQueryable<ApiCustomer> customerQuery;
+                IQueryable<Customer> customerQuery;
                 int itemsToSkip = (pageIndex - 1) * pageSize;
                 int itemsToTake = pageSize;
 
                 customerQuery = _db.Customers.AsQueryable();
-                var newCustomerlist = await PagedList<ApiCustomer>.CreateAsync(customerQuery, pageIndex, pageSize);                
+                var newCustomerlist = await PagedList<Customer>.CreateAsync(customerQuery, pageIndex, pageSize);                
 
                 return newCustomerlist;
             }

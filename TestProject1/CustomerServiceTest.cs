@@ -36,7 +36,7 @@ namespace TestProject
             var result = customerService.GetCustomers();
 
             // Assert – this is the final part of the test where we compare
-            await Assert.IsAssignableFrom<Task<List<ApiCustomer>>>(result);
+            await Assert.IsAssignableFrom<Task<List<Customer>>>(result);
         }
 
         // Test: GetCustomers methods return all items from database
@@ -60,8 +60,8 @@ namespace TestProject
 
             var result = customerService.GetCustomerById(1);
 
-            var objectResult = Assert.IsType<Task<ApiCustomer>>(result);
-            var customer = await Assert.IsAssignableFrom<Task<ApiCustomer>>(objectResult);
+            var objectResult = Assert.IsType<Task<Customer>>(result);
+            var customer = await Assert.IsAssignableFrom<Task<Customer>>(objectResult);
             Assert.Equal(1, customer.Id);
         }
 
@@ -70,7 +70,7 @@ namespace TestProject
         {
             var customerService = new CustomerService(_context);
 
-            var result = await customerService.CreateCustomer(new ApiCustomer
+            var result = await customerService.CreateCustomer(new Customer
             {
                 Id = 4,
                 CompanyName = "aCompanyName4",
@@ -94,18 +94,18 @@ namespace TestProject
             // select a customer to be deleted
             var selectedObj = customerService.GetCustomerById(1);
 
-            var customer = await Assert.IsAssignableFrom<Task<ApiCustomer>>(selectedObj);
+            var customer = await Assert.IsAssignableFrom<Task<Customer>>(selectedObj);
 
-            var result = await customerService.DeleteCustomer(customer);
+            var result = await customerService.DeleteCustomer(customer.Id);
 
             Assert.Equal("Delete Successfully", result);
         }
 
         private void NewTestList(ApplicationDbContext context)
         {
-            var customers = new List<ApiCustomer>
+            var customers = new List<Customer>
             {
-                new ApiCustomer{   
+                new Customer{   
                     Id = 1,
                     CompanyName = "aCompanyName",
                     ContactName = "aContactName",
@@ -116,7 +116,7 @@ namespace TestProject
                     Country = "aCountry",
                     Phone = "aPhone"
                 },
-                new ApiCustomer{
+                new Customer{
                     Id = 2,
                     CompanyName = "aCompanyName2",
                     ContactName = "aContactName2",
@@ -127,7 +127,7 @@ namespace TestProject
                     Country = "aCountry2",
                     Phone = "aPhone2"
                 },
-                new ApiCustomer{
+                new Customer{
                     Id = 3,
                     CompanyName = "aCompanyName3",
                     ContactName = "aContactName3",

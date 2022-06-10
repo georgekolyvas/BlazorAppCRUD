@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DataAccessLibrary.Models
 {
-    public class ApiCustomer
+    public class Customer
     {
+        // (sql server) "Customer" table has an auto increment "Id" field. It only applies to type "int"
+        //public string Id { get; set; }
         public int Id { get; set; }
         [Required]
         public string CompanyName { get; set; }
