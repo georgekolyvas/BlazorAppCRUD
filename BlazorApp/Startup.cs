@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using BlazorApp.Data;
 using Microsoft.EntityFrameworkCore;
+using DataAccessLibrary;
+using BlazorApp.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorApp
 {
@@ -25,13 +23,18 @@ namespace BlazorApp
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {
+        {         
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
-
-            // configuring dbcontext provider 
-            services.AddDbContext<CustomersDbContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("SQLServerDBConn")));
+            services.AddSingleton<WeatherForecastService>();            
+            services.AddScoped<ICustomerService, CustomerService>();
+            
+            // swagger 
+            //services.AddSwaggerGen();
+            services.AddControllers();
+            services.AddScoped<CustomerController>();
+            //
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,14 +53,14 @@ namespace BlazorApp
 
             app.UseRouting();
 
-            //app.UseAuthorization();
-            //app.UseAuthentication();
+            app.UseHttpsRedirection();              
 
             app.UseEndpoints(endpoints =>
-            {
+            {                
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
-            });
+                endpoints.MapFallbackToPage("/_Host");                
+            });            
         }
     }
 }

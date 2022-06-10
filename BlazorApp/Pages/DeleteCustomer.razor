@@ -1,0 +1,83 @@
+﻿@page "/DeleteCustomer/{CurrentID}"
+
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+@inject ICustomerService objCustomerService
+@inject NavigationManager NavigationManager
+
+<h2>Delete Customer</h2>
+<hr/>
+<h4> Do you want to delete this Customer? </h4>
+<br/>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>Customer Id:</label>
+            <label>@objCustomer.Id</label>
+        </div>
+        <div class="form-group">
+            <label>Company Name:</label>
+            <label>@objCustomer.CompanyName</label>
+        </div>
+        <div class="form-group">
+            <label>Contact Name:</label>
+            <label>@objCustomer.ContactName</label>
+        </div>
+        <div class="form-group">
+            <label>Address:</label>
+            <label>@objCustomer.Address</label>
+        </div>
+        <div class="form-group">
+            <label>City:</label>
+            <label>@objCustomer.City</label>
+        </div>
+        <div class="form-group">
+            <label>Region:</label>
+            <label>@objCustomer.Region</label>
+        </div>
+        <div class="form-group">
+            <label>Postal Code:</label>
+            <label>@objCustomer.PostalCode</label>
+        </div>
+        <div class="form-group">
+            <label>Country:</label>
+            <label>@objCustomer.Country</label>
+        </div>
+        <div class="form-group">
+            <label>Phone:</label>
+            <label>@objCustomer.Phone</label>
+        </div>        
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="button" class="btn btn-danger" @onclick="@DeleteThisCustomer" value="Delete"/>
+            <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel"/>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public string CurrentID { get; set; }
+
+    ApiCustomer objCustomer = new ApiCustomer();
+
+    protected override async Task OnInitializedAsync()
+    {
+        objCustomer = await Task.Run(() => objCustomerService.GetCustomerById(Int32.Parse(CurrentID)));
+    }
+
+    protected async void DeleteThisCustomer()
+    {
+        await objCustomerService.DeleteCustomer(objCustomer);
+        NavigationManager.NavigateTo("Customer");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Customer");
+    }
+}

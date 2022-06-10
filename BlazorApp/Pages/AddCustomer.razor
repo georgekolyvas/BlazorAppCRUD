@@ -1,0 +1,85 @@
+﻿@page "/AddCustomer"
+
+@using DataAccessLibrary
+@using DataAccessLibrary.Models
+@inject ICustomerService objCustomerService
+@inject NavigationManager NavigationManager
+
+<h2>Add Customer</h2>
+<hr/>
+
+<EditForm Model="@objCustomer" OnValidSubmit="@CreateCustomer" >
+    <DataAnnotationsValidator />
+    <ValidationSummary />   
+
+    <div class="form-group">
+        <label>Company Name</label>  
+        <ValidationMessage For="@(() => objCustomer.CompanyName)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.CompanyName" />
+    </div>
+
+    <div class="form-group">
+        <label>Contact Name</label>   
+        <ValidationMessage For="@(() => objCustomer.ContactName)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.ContactName" />
+    </div>
+
+    <div class="form-group">
+        <label>Address</label>  
+        <ValidationMessage For="@(() => objCustomer.Address)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.Address" />
+    </div>
+
+    <div class="form-group">
+        <label>City</label>  
+        <ValidationMessage For="@(() => objCustomer.City)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.City" />
+    </div>
+
+    <div class="form-group">
+        <label>Region</label>    
+        <ValidationMessage For="@(() => objCustomer.Region)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.Region" />
+    </div>
+
+    <div class="form-group">
+        <label>PostalCode</label>   
+        <ValidationMessage For="@(() => objCustomer.PostalCode)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.PostalCode" />
+    </div>
+
+    <div class="form-group">
+        <label>Country</label>  
+        <ValidationMessage For="@(() => objCustomer.Country)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.Country" />
+    </div>
+
+    <div class="form-group">
+        <label>Phone</label>   
+        <ValidationMessage For="@(() => objCustomer.Phone)"/>
+        <InputText class="form-control" @bind-Value="objCustomer.Phone" />
+    </div>
+
+    <div class="form-group">        
+        <button type="submit" class="btn btn-primary">Save</button>     
+        <input type="button" class="btn btn-primary" @onclick="@Cancel" value="Cancel"/>
+    </div>
+</EditForm>
+
+@code {
+    ApiCustomer objCustomer = new ApiCustomer();
+
+    /// <summary>
+    /// Create a Customer
+    /// </summary>
+    protected async void CreateCustomer()
+    {
+        await objCustomerService.CreateCustomer(objCustomer);
+        NavigationManager.NavigateTo("Customer");
+    }
+
+    void Cancel()
+    {
+        NavigationManager.NavigateTo("Customer");
+    }
+}
